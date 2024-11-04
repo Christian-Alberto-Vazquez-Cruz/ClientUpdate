@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/TripasService.Utils" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/TripasService.Utils" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="GameEnums.PlayerStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Offline" />
+      <xs:enumeration value="Online" />
+      <xs:enumeration value="InGame" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="GameEnums.PlayerStatus" nillable="true" type="tns:GameEnums.PlayerStatus" />
+</xs:schema>

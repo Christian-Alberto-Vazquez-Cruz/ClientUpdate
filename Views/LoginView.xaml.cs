@@ -42,6 +42,7 @@ namespace TripasDeGatoCliente.Views {
 
             if (VerifyFields()) {
                 if (ValidateCredentials(mail, password)) {
+                    SetPlayerOnlineStatus(UserProfileSingleton.IdPerfil);
                     DisplayMainMenuView();
                 } else {
                     DialogManager.ShowErrorMessageAlert(Properties.Resources.dialogMissmatchesCredentials);
@@ -286,7 +287,18 @@ namespace TripasDeGatoCliente.Views {
         }
 
 
-
+        //NUEVO
+        private void SetPlayerOnlineStatus(int playerId) {
+            try {
+                IStatusManager statusManager = new StatusManagerClient();
+                statusManager.SetPlayerStatus(playerId, GameEnumsPlayerStatus.Online);
+            } catch (Exception ex) {
+                // Manejo de errores, tal vez quieras registrar el error
+                LoggerManager logger = new LoggerManager(this.GetType());
+                logger.LogError(ex);
+                DialogManager.ShowErrorMessageAlert("Error al actualizar el estado del jugador.");
+            }
+        }
 
     }
 }

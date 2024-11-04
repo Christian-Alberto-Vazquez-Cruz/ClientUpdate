@@ -13,9 +13,10 @@ namespace TripasDeGatoCliente.Views
     public partial class LobbyView : Page, IChatManagerCallback
     {
         private ChatManagerClient chatManager;
-        public LobbyView()
+        public LobbyView(string lobbyCode)
         {
             InitializeComponent();
+            lbCode.Content = lobbyCode;
             labelPlayer1.Content = UserProfileSingleton.Nombre;
             chatManager = new ChatManagerClient(new InstanceContext(this));
             InitializeChatAsync();

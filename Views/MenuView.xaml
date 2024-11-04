@@ -161,7 +161,7 @@
                 HorizontalAlignment="Left" 
                 Margin="1068,470,0,69" 
                 Background="Black" 
-                BorderBrush="#FF8D4AE2" Grid.Row="1"/>
+                BorderBrush="#FF8D4AE2" Grid.Row="1" Click="btnJoinGame_Click"/>
 
         <Button x:Name="btnLeaderboard" 
                 Content="{x:Static p:Resources.btnLeaderboard}" 

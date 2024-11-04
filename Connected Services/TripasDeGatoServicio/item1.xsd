@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:8082/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TripasService.Contracts" />
+  <xs:import schemaLocation="http://localhost:8082/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TripasService.Utils" />
   <xs:element name="createAccount">
     <xs:complexType>
       <xs:sequence>
@@ -19,7 +20,9 @@
   <xs:element name="updateProfile">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="profile" nillable="true" type="q3:Profile" />
+        <xs:element minOccurs="0" name="idProfile" type="xs:int" />
+        <xs:element minOccurs="0" name="newUsername" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="newPic" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -30,25 +33,11 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="getProfile">
+  <xs:element name="verifyLogin">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="mail" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="getProfileResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="getProfileResult" nillable="true" type="q4:Profile" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="verifyLogin">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="user" nillable="true" type="q5:LoginUser" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -117,6 +106,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="getProfileByMail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="mail" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getProfileByMailResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="getProfileByMailResult" nillable="true" type="q3:Profile" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="addFriend">
     <xs:complexType>
       <xs:sequence>
@@ -172,7 +175,7 @@
   <xs:element name="getFriendsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="getFriendsResult" nillable="true" type="q6:ArrayOfProfile" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="getFriendsResult" nillable="true" type="q4:ArrayOfProfile" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -180,7 +183,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="message" nillable="true" type="q7:Message" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="message" nillable="true" type="q5:Message" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -221,14 +224,14 @@
   <xs:element name="getMessageHistoryResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="getMessageHistoryResult" nillable="true" type="q8:ArrayOfMessage" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="getMessageHistoryResult" nillable="true" type="q6:ArrayOfMessage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="broadcastMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="message" nillable="true" type="q9:Message" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="message" nillable="true" type="q7:Message" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -313,7 +316,136 @@
   <xs:element name="getHighestScoresResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="getHighestScoresResult" nillable="true" type="q10:ArrayOfProfile" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="getHighestScoresResult" nillable="true" type="q8:ArrayOfProfile" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetPlayerStatus">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idProfile" type="xs:int" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/TripasService.Utils" minOccurs="0" name="status" type="q9:GameEnums.PlayerStatus" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetPlayerStatusResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetPlayerStatusResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPlayerStatus">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idProfile" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPlayerStatusResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/TripasService.Utils" minOccurs="0" name="GetPlayerStatusResult" type="q10:GameEnums.PlayerStatus" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DisconnectPlayer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idProfile" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DisconnectPlayerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DisconnectPlayerResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateLobby">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gameName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nodeCount" type="xs:int" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="owner" nillable="true" type="q11:Profile" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateLobbyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CreateLobbyResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLobbyByCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLobbyByCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="GetLobbyByCodeResult" nillable="true" type="q12:Lobby" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAvailableLobbies">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAvailableLobbiesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="GetAvailableLobbiesResult" nillable="true" type="q13:ArrayOfLobby" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="JoinLobby">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/TripasService.Contracts" minOccurs="0" name="guest" nillable="true" type="q14:Profile" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="JoinLobbyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="JoinLobbyResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LeaveLobby">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="playerId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LeaveLobbyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="LeaveLobbyResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLobby">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLobbyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteLobbyResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

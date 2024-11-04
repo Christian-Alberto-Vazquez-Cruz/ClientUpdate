@@ -62,7 +62,7 @@
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="46,259,0,0">
             <Image Source="/Images/DefaultImageProfile2.png" Width="190" Height="210" />
-            <TextBlock Text="Jugador 2" Foreground="White" FontSize="16" HorizontalAlignment="Center" FontFamily="Rockwell Extra Bold" />
+            <TextBlock x:Name="labelPlayer2" Text="Jugador 2" Foreground="White" FontSize="16" HorizontalAlignment="Center" FontFamily="Rockwell Extra Bold" />
         </StackPanel>
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,259,42,0">
@@ -197,5 +197,6 @@
                 </Style>
             </Button.Style>
         </Button>
+        <Label x:Name="lbCode" Content="Label" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" Foreground="White" FontSize="36"/>
     </Grid>
 </Page>

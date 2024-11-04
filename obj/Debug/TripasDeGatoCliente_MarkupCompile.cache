@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\TripasDeGatoCliente\obj\Debug\
+C:\Users\cv419\Source\Repos\Cliente-TripasDeGato\obj\Debug\
 TripasDeGatoCliente
 none
 false
 DEBUG;TRACE
-C:\TripasDeGatoCliente\App.xaml
-6776493062
+C:\Users\cv419\Source\Repos\Cliente-TripasDeGato\App.xaml
+7-1984261839
 1447816675
-20-512349980
-18327966138
-MainWindow.xaml;Views\LobbyView.xaml;Views\MenuView.xaml;Views\ProfileView.xaml;Views\RegisterView.xaml;Views\LoginView.xaml;
+20646315655
+181522276418
+MainWindow.xaml;Views\LobbyView.xaml;Views\MenuView.xaml;Views\ProfileView.xaml;Views\RegisterView.xaml;Views\LoginView.xaml;Views\SelectLobbyView.xaml;
 
-True
+False
 

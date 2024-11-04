@@ -174,11 +174,71 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="NetTcpBinding_IStatusManager_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="NetTcpBinding_ILobbyManager_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TripasService.Contracts" />
+      <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TripasService.Utils" />
+      <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IUserManager_createAccount_InputMessage">
@@ -192,12 +252,6 @@
   </wsdl:message>
   <wsdl:message name="IUserManager_updateProfile_OutputMessage">
     <wsdl:part name="parameters" element="tns:updateProfileResponse" />
-  </wsdl:message>
-  <wsdl:message name="IUserManager_getProfile_InputMessage">
-    <wsdl:part name="parameters" element="tns:getProfile" />
-  </wsdl:message>
-  <wsdl:message name="IUserManager_getProfile_OutputMessage">
-    <wsdl:part name="parameters" element="tns:getProfileResponse" />
   </wsdl:message>
   <wsdl:message name="IUserManager_verifyLogin_InputMessage">
     <wsdl:part name="parameters" element="tns:verifyLogin" />
@@ -231,6 +285,12 @@
   </wsdl:message>
   <wsdl:message name="IUserManager_updateProfilePic_OutputMessage">
     <wsdl:part name="parameters" element="tns:updateProfilePicResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserManager_getProfileByMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:getProfileByMail" />
+  </wsdl:message>
+  <wsdl:message name="IUserManager_getProfileByMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getProfileByMailResponse" />
   </wsdl:message>
   <wsdl:message name="IFriendsManager_addFriend_InputMessage">
     <wsdl:part name="parameters" element="tns:addFriend" />
@@ -319,6 +379,60 @@
   <wsdl:message name="ILeaderboardManager_getHighestScores_OutputMessage">
     <wsdl:part name="parameters" element="tns:getHighestScoresResponse" />
   </wsdl:message>
+  <wsdl:message name="IStatusManager_SetPlayerStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetPlayerStatus" />
+  </wsdl:message>
+  <wsdl:message name="IStatusManager_SetPlayerStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetPlayerStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStatusManager_GetPlayerStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerStatus" />
+  </wsdl:message>
+  <wsdl:message name="IStatusManager_GetPlayerStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStatusManager_DisconnectPlayer_InputMessage">
+    <wsdl:part name="parameters" element="tns:DisconnectPlayer" />
+  </wsdl:message>
+  <wsdl:message name="IStatusManager_DisconnectPlayer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DisconnectPlayerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_CreateLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_CreateLobby_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_GetLobbyByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLobbyByCode" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_GetLobbyByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLobbyByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_GetAvailableLobbies_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAvailableLobbies" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_GetAvailableLobbies_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAvailableLobbiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_JoinLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:JoinLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_JoinLobby_OutputMessage">
+    <wsdl:part name="parameters" element="tns:JoinLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_LeaveLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:LeaveLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_LeaveLobby_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LeaveLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_DeleteLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_DeleteLobby_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLobbyResponse" />
+  </wsdl:message>
   <wsdl:portType name="IUserManager">
     <wsdl:operation name="createAccount">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserManager/createAccount" message="tns:IUserManager_createAccount_InputMessage" />
@@ -327,10 +441,6 @@
     <wsdl:operation name="updateProfile">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserManager/updateProfile" message="tns:IUserManager_updateProfile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserManager/updateProfileResponse" message="tns:IUserManager_updateProfile_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="getProfile">
-      <wsdl:input wsaw:Action="http://tempuri.org/IUserManager/getProfile" message="tns:IUserManager_getProfile_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IUserManager/getProfileResponse" message="tns:IUserManager_getProfile_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="verifyLogin">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserManager/verifyLogin" message="tns:IUserManager_verifyLogin_InputMessage" />
@@ -352,6 +462,10 @@
     <wsdl:operation name="updateProfilePic">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserManager/updateProfilePic" message="tns:IUserManager_updateProfilePic_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserManager/updateProfilePicResponse" message="tns:IUserManager_updateProfilePic_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getProfileByMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserManager/getProfileByMail" message="tns:IUserManager_getProfileByMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserManager/getProfileByMailResponse" message="tns:IUserManager_getProfileByMail_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="IFriendsManager">
@@ -423,6 +537,46 @@
       <wsdl:output wsaw:Action="http://tempuri.org/ILeaderboardManager/getHighestScoresResponse" message="tns:ILeaderboardManager_getHighestScores_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
+  <wsdl:portType name="IStatusManager">
+    <wsdl:operation name="SetPlayerStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStatusManager/SetPlayerStatus" message="tns:IStatusManager_SetPlayerStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStatusManager/SetPlayerStatusResponse" message="tns:IStatusManager_SetPlayerStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlayerStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStatusManager/GetPlayerStatus" message="tns:IStatusManager_GetPlayerStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStatusManager/GetPlayerStatusResponse" message="tns:IStatusManager_GetPlayerStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DisconnectPlayer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStatusManager/DisconnectPlayer" message="tns:IStatusManager_DisconnectPlayer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStatusManager/DisconnectPlayerResponse" message="tns:IStatusManager_DisconnectPlayer_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ILobbyManager">
+    <wsdl:operation name="CreateLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/CreateLobby" message="tns:ILobbyManager_CreateLobby_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/CreateLobbyResponse" message="tns:ILobbyManager_CreateLobby_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLobbyByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/GetLobbyByCode" message="tns:ILobbyManager_GetLobbyByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/GetLobbyByCodeResponse" message="tns:ILobbyManager_GetLobbyByCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableLobbies">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/GetAvailableLobbies" message="tns:ILobbyManager_GetAvailableLobbies_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/GetAvailableLobbiesResponse" message="tns:ILobbyManager_GetAvailableLobbies_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="JoinLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/JoinLobby" message="tns:ILobbyManager_JoinLobby_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/JoinLobbyResponse" message="tns:ILobbyManager_JoinLobby_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LeaveLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/LeaveLobby" message="tns:ILobbyManager_LeaveLobby_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/LeaveLobbyResponse" message="tns:ILobbyManager_LeaveLobby_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/DeleteLobby" message="tns:ILobbyManager_DeleteLobby_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/DeleteLobbyResponse" message="tns:ILobbyManager_DeleteLobby_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IUserManager" type="tns:IUserManager">
     <wsp:PolicyReference URI="#NetTcpBinding_IUserManager_policy" />
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
@@ -437,15 +591,6 @@
     </wsdl:operation>
     <wsdl:operation name="updateProfile">
       <soap12:operation soapAction="http://tempuri.org/IUserManager/updateProfile" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getProfile">
-      <soap12:operation soapAction="http://tempuri.org/IUserManager/getProfile" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -494,6 +639,15 @@
     </wsdl:operation>
     <wsdl:operation name="updateProfilePic">
       <soap12:operation soapAction="http://tempuri.org/IUserManager/updateProfilePic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProfileByMail">
+      <soap12:operation soapAction="http://tempuri.org/IUserManager/getProfileByMail" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -654,13 +808,102 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
+  <wsdl:binding name="NetTcpBinding_IStatusManager" type="tns:IStatusManager">
+    <wsp:PolicyReference URI="#NetTcpBinding_IStatusManager_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="SetPlayerStatus">
+      <soap12:operation soapAction="http://tempuri.org/IStatusManager/SetPlayerStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlayerStatus">
+      <soap12:operation soapAction="http://tempuri.org/IStatusManager/GetPlayerStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DisconnectPlayer">
+      <soap12:operation soapAction="http://tempuri.org/IStatusManager/DisconnectPlayer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NetTcpBinding_ILobbyManager" type="tns:ILobbyManager">
+    <wsp:PolicyReference URI="#NetTcpBinding_ILobbyManager_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="CreateLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/CreateLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLobbyByCode">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/GetLobbyByCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableLobbies">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/GetAvailableLobbies" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="JoinLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/JoinLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LeaveLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/LeaveLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/DeleteLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
   <wsdl:service name="TripasGameService">
     <wsdl:port name="NetTcpBinding_IUserManager" binding="tns:NetTcpBinding_IUserManager">
       <soap12:address location="net.tcp://localhost:8081/UserManager" />
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8081/UserManager</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>ERICK_ATZIN\abdie</Upn>
+          <Upn>Z\cv419</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
@@ -669,7 +912,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8081/FriendsManager</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>ERICK_ATZIN\abdie</Upn>
+          <Upn>Z\cv419</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
@@ -678,7 +921,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8081/ChatManager</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>ERICK_ATZIN\abdie</Upn>
+          <Upn>Z\cv419</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
@@ -687,7 +930,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8081/PasswordRecoveryManager</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>ERICK_ATZIN\abdie</Upn>
+          <Upn>Z\cv419</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
@@ -696,7 +939,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8081/EmailVerificationManager</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>ERICK_ATZIN\abdie</Upn>
+          <Upn>Z\cv419</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
@@ -705,7 +948,25 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8081/LeaderboardManager</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>ERICK_ATZIN\abdie</Upn>
+          <Upn>Z\cv419</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="NetTcpBinding_IStatusManager" binding="tns:NetTcpBinding_IStatusManager">
+      <soap12:address location="net.tcp://localhost:8081/StatusManager" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8081/StatusManager</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>Z\cv419</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="NetTcpBinding_ILobbyManager" binding="tns:NetTcpBinding_ILobbyManager">
+      <soap12:address location="net.tcp://localhost:8081/LobbyManager" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8081/LobbyManager</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>Z\cv419</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/TripasService.Contracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/TripasService.Contracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8082/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TripasService.Utils" />
+  <xs:import schemaLocation="http://localhost:8082/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="LoginUser">
     <xs:sequence>
       <xs:element minOccurs="0" name="idLoginUser" type="xs:int" />
@@ -13,6 +15,7 @@
       <xs:element minOccurs="0" name="idProfile" type="xs:int" />
       <xs:element minOccurs="0" name="picturePath" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="score" type="xs:int" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/TripasService.Utils" minOccurs="0" name="status" type="q1:GameEnums.PlayerStatus" />
       <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
@@ -43,4 +46,19 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfMessage" nillable="true" type="tns:ArrayOfMessage" />
+  <xs:complexType name="Lobby">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GameName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NodeCount" type="xs:int" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Players" nillable="true" type="q2:ArrayOfKeyValueOfstringProfiledJUIlwiz" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Lobby" nillable="true" type="tns:Lobby" />
+  <xs:complexType name="ArrayOfLobby">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Lobby" nillable="true" type="tns:Lobby" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLobby" nillable="true" type="tns:ArrayOfLobby" />
 </xs:schema>
