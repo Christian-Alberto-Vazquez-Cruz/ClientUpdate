@@ -9,7 +9,11 @@
       Title="SelectLobbyView">
 
     <Grid>
-        <DataGrid x:Name="LobbyDataGrid" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="76*"/>
+            <RowDefinition Height="149*"/>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="LobbyDataGrid" AutoGenerateColumns="False" Grid.RowSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Código" Binding="{Binding Code}" Width="*"/>
                 <DataGridTextColumn Header="Nombre del Juego" Binding="{Binding GameName}" Width="*"/>
@@ -18,8 +22,8 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button x:Name="btnBack" Content="Volver" HorizontalAlignment="Left" Margin="695,393,0,0" VerticalAlignment="Top" Click="btnBack_Click"/>
-        <Button x:Name="btnJoinGame" Content="Unirse" HorizontalAlignment="Left" Margin="611,393,0,0" VerticalAlignment="Top" Click="btnJoinGame_Click"/>
+        <Button x:Name="btnBack" Content="Volver" HorizontalAlignment="Left" Margin="695,241,0,0" VerticalAlignment="Top" Click="btnBack_Click" Grid.Row="1"/>
+        <Button x:Name="btnJoinGame" Content="Unirse" HorizontalAlignment="Left" Margin="611,241,0,0" VerticalAlignment="Top" Click="btnJoinGame_Click" Grid.Row="1"/>
     </Grid>
 
 </Page>

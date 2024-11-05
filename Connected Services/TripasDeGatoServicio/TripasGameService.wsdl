@@ -232,13 +232,43 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="NetTcpBinding_ILobbyBrowser_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TripasService.Contracts" />
       <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TripasService.Utils" />
-      <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/TripasService.Logic" />
+      <xsd:import schemaLocation="http://localhost:8082/?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IUserManager_createAccount_InputMessage">
@@ -322,17 +352,17 @@
   <wsdl:message name="IChatManager_sendMessage_OutputMessage">
     <wsdl:part name="parameters" element="tns:sendMessageResponse" />
   </wsdl:message>
-  <wsdl:message name="IChatManager_connectToLobby_InputMessage">
-    <wsdl:part name="parameters" element="tns:connectToLobby" />
+  <wsdl:message name="IChatManager_connectToChat_InputMessage">
+    <wsdl:part name="parameters" element="tns:connectToChat" />
   </wsdl:message>
-  <wsdl:message name="IChatManager_connectToLobby_OutputMessage">
-    <wsdl:part name="parameters" element="tns:connectToLobbyResponse" />
+  <wsdl:message name="IChatManager_connectToChat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:connectToChatResponse" />
   </wsdl:message>
-  <wsdl:message name="IChatManager_leaveLobby_InputMessage">
-    <wsdl:part name="parameters" element="tns:leaveLobby" />
+  <wsdl:message name="IChatManager_leaveChat_InputMessage">
+    <wsdl:part name="parameters" element="tns:leaveChat" />
   </wsdl:message>
-  <wsdl:message name="IChatManager_leaveLobby_OutputMessage">
-    <wsdl:part name="parameters" element="tns:leaveLobbyResponse" />
+  <wsdl:message name="IChatManager_leaveChat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:leaveChatResponse" />
   </wsdl:message>
   <wsdl:message name="IChatManager_getMessageHistory_InputMessage">
     <wsdl:part name="parameters" element="tns:getMessageHistory" />
@@ -397,30 +427,6 @@
   <wsdl:message name="IStatusManager_DisconnectPlayer_OutputMessage">
     <wsdl:part name="parameters" element="tns:DisconnectPlayerResponse" />
   </wsdl:message>
-  <wsdl:message name="ILobbyManager_CreateLobby_InputMessage">
-    <wsdl:part name="parameters" element="tns:CreateLobby" />
-  </wsdl:message>
-  <wsdl:message name="ILobbyManager_CreateLobby_OutputMessage">
-    <wsdl:part name="parameters" element="tns:CreateLobbyResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILobbyManager_GetLobbyByCode_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetLobbyByCode" />
-  </wsdl:message>
-  <wsdl:message name="ILobbyManager_GetLobbyByCode_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetLobbyByCodeResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILobbyManager_GetAvailableLobbies_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetAvailableLobbies" />
-  </wsdl:message>
-  <wsdl:message name="ILobbyManager_GetAvailableLobbies_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetAvailableLobbiesResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILobbyManager_JoinLobby_InputMessage">
-    <wsdl:part name="parameters" element="tns:JoinLobby" />
-  </wsdl:message>
-  <wsdl:message name="ILobbyManager_JoinLobby_OutputMessage">
-    <wsdl:part name="parameters" element="tns:JoinLobbyResponse" />
-  </wsdl:message>
   <wsdl:message name="ILobbyManager_LeaveLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:LeaveLobby" />
   </wsdl:message>
@@ -432,6 +438,54 @@
   </wsdl:message>
   <wsdl:message name="ILobbyManager_DeleteLobby_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_notifyPlayerConectedCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:notifyPlayerConectedCallback" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_notifyPlayerConectedCallback_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:notifyPlayerConectedCallbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_removeFromLobby_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:removeFromLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_removeFromLobby_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:removeFromLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_hostLeftCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:hostLeftCallback" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_hostLeftCallback_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:hostLeftCallbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_guestLeftCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:guestLeftCallback" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyManager_guestLeftCallback_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:guestLeftCallbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyBrowser_GetAvailableLobbies_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAvailableLobbies" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyBrowser_GetAvailableLobbies_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAvailableLobbiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyBrowser_JoinLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:JoinLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyBrowser_JoinLobby_OutputMessage">
+    <wsdl:part name="parameters" element="tns:JoinLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyBrowser_CreateLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyBrowser_CreateLobby_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyBrowser_GetLobbyByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLobbyByCode" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyBrowser_GetLobbyByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLobbyByCodeResponse" />
   </wsdl:message>
   <wsdl:portType name="IUserManager">
     <wsdl:operation name="createAccount">
@@ -491,13 +545,13 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IChatManager/sendMessage" message="tns:IChatManager_sendMessage_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IChatManager/sendMessageResponse" message="tns:IChatManager_sendMessage_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="connectToLobby">
-      <wsdl:input wsaw:Action="http://tempuri.org/IChatManager/connectToLobby" message="tns:IChatManager_connectToLobby_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IChatManager/connectToLobbyResponse" message="tns:IChatManager_connectToLobby_OutputMessage" />
+    <wsdl:operation name="connectToChat">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatManager/connectToChat" message="tns:IChatManager_connectToChat_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatManager/connectToChatResponse" message="tns:IChatManager_connectToChat_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="leaveLobby">
-      <wsdl:input wsaw:Action="http://tempuri.org/IChatManager/leaveLobby" message="tns:IChatManager_leaveLobby_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IChatManager/leaveLobbyResponse" message="tns:IChatManager_leaveLobby_OutputMessage" />
+    <wsdl:operation name="leaveChat">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatManager/leaveChat" message="tns:IChatManager_leaveChat_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatManager/leaveChatResponse" message="tns:IChatManager_leaveChat_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="getMessageHistory">
       <wsdl:input wsaw:Action="http://tempuri.org/IChatManager/getMessageHistory" message="tns:IChatManager_getMessageHistory_InputMessage" />
@@ -552,22 +606,6 @@
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="ILobbyManager">
-    <wsdl:operation name="CreateLobby">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/CreateLobby" message="tns:ILobbyManager_CreateLobby_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/CreateLobbyResponse" message="tns:ILobbyManager_CreateLobby_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetLobbyByCode">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/GetLobbyByCode" message="tns:ILobbyManager_GetLobbyByCode_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/GetLobbyByCodeResponse" message="tns:ILobbyManager_GetLobbyByCode_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAvailableLobbies">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/GetAvailableLobbies" message="tns:ILobbyManager_GetAvailableLobbies_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/GetAvailableLobbiesResponse" message="tns:ILobbyManager_GetAvailableLobbies_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="JoinLobby">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/JoinLobby" message="tns:ILobbyManager_JoinLobby_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/JoinLobbyResponse" message="tns:ILobbyManager_JoinLobby_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="LeaveLobby">
       <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/LeaveLobby" message="tns:ILobbyManager_LeaveLobby_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/LeaveLobbyResponse" message="tns:ILobbyManager_LeaveLobby_OutputMessage" />
@@ -575,6 +613,40 @@
     <wsdl:operation name="DeleteLobby">
       <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/DeleteLobby" message="tns:ILobbyManager_DeleteLobby_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/DeleteLobbyResponse" message="tns:ILobbyManager_DeleteLobby_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="notifyPlayerConectedCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/notifyPlayerConectedCallback" message="tns:ILobbyManager_notifyPlayerConectedCallback_OutputCallbackMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/notifyPlayerConectedCallbackResponse" message="tns:ILobbyManager_notifyPlayerConectedCallback_InputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="removeFromLobby">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/removeFromLobby" message="tns:ILobbyManager_removeFromLobby_OutputCallbackMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/removeFromLobbyResponse" message="tns:ILobbyManager_removeFromLobby_InputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="hostLeftCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/hostLeftCallback" message="tns:ILobbyManager_hostLeftCallback_OutputCallbackMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/hostLeftCallbackResponse" message="tns:ILobbyManager_hostLeftCallback_InputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="guestLeftCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyManager/guestLeftCallback" message="tns:ILobbyManager_guestLeftCallback_OutputCallbackMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyManager/guestLeftCallbackResponse" message="tns:ILobbyManager_guestLeftCallback_InputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ILobbyBrowser">
+    <wsdl:operation name="GetAvailableLobbies">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyBrowser/GetAvailableLobbies" message="tns:ILobbyBrowser_GetAvailableLobbies_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyBrowser/GetAvailableLobbiesResponse" message="tns:ILobbyBrowser_GetAvailableLobbies_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="JoinLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyBrowser/JoinLobby" message="tns:ILobbyBrowser_JoinLobby_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyBrowser/JoinLobbyResponse" message="tns:ILobbyBrowser_JoinLobby_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyBrowser/CreateLobby" message="tns:ILobbyBrowser_CreateLobby_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyBrowser/CreateLobbyResponse" message="tns:ILobbyBrowser_CreateLobby_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLobbyByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyBrowser/GetLobbyByCode" message="tns:ILobbyBrowser_GetLobbyByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyBrowser/GetLobbyByCodeResponse" message="tns:ILobbyBrowser_GetLobbyByCode_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IUserManager" type="tns:IUserManager">
@@ -708,8 +780,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="connectToLobby">
-      <soap12:operation soapAction="http://tempuri.org/IChatManager/connectToLobby" style="document" />
+    <wsdl:operation name="connectToChat">
+      <soap12:operation soapAction="http://tempuri.org/IChatManager/connectToChat" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -717,8 +789,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="leaveLobby">
-      <soap12:operation soapAction="http://tempuri.org/IChatManager/leaveLobby" style="document" />
+    <wsdl:operation name="leaveChat">
+      <soap12:operation soapAction="http://tempuri.org/IChatManager/leaveChat" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -842,42 +914,6 @@
   <wsdl:binding name="NetTcpBinding_ILobbyManager" type="tns:ILobbyManager">
     <wsp:PolicyReference URI="#NetTcpBinding_ILobbyManager_policy" />
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
-    <wsdl:operation name="CreateLobby">
-      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/CreateLobby" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetLobbyByCode">
-      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/GetLobbyByCode" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAvailableLobbies">
-      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/GetAvailableLobbies" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="JoinLobby">
-      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/JoinLobby" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="LeaveLobby">
       <soap12:operation soapAction="http://tempuri.org/ILobbyManager/LeaveLobby" style="document" />
       <wsdl:input>
@@ -889,6 +925,82 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteLobby">
       <soap12:operation soapAction="http://tempuri.org/ILobbyManager/DeleteLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="notifyPlayerConectedCallback">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/notifyPlayerConectedCallback" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeFromLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/removeFromLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="hostLeftCallback">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/hostLeftCallback" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="guestLeftCallback">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyManager/guestLeftCallback" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NetTcpBinding_ILobbyBrowser" type="tns:ILobbyBrowser">
+    <wsp:PolicyReference URI="#NetTcpBinding_ILobbyBrowser_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="GetAvailableLobbies">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyBrowser/GetAvailableLobbies" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="JoinLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyBrowser/JoinLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyBrowser/CreateLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLobbyByCode">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyBrowser/GetLobbyByCode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -965,6 +1077,15 @@
       <soap12:address location="net.tcp://localhost:8081/LobbyManager" />
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8081/LobbyManager</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>Z\cv419</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="NetTcpBinding_ILobbyBrowser" binding="tns:NetTcpBinding_ILobbyBrowser">
+      <soap12:address location="net.tcp://localhost:8081/LobbyBrowser" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8081/LobbyBrowser</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
           <Upn>Z\cv419</Upn>
         </Identity>

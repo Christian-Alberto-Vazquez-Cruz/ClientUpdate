@@ -337,7 +337,7 @@ namespace TripasDeGatoCliente.TripasDeGatoServicio {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Lobby", Namespace="http://schemas.datacontract.org/2004/07/TripasService.Contracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Lobby", Namespace="http://schemas.datacontract.org/2004/07/TripasService.Logic")]
     [System.SerializableAttribute()]
     public partial class Lobby : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -673,17 +673,17 @@ namespace TripasDeGatoCliente.TripasDeGatoServicio {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/sendMessage", ReplyAction="http://tempuri.org/IChatManager/sendMessageResponse")]
         System.Threading.Tasks.Task sendMessageAsync(string userName, TripasDeGatoCliente.TripasDeGatoServicio.Message message);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/connectToLobby", ReplyAction="http://tempuri.org/IChatManager/connectToLobbyResponse")]
-        void connectToLobby(string userName);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/connectToChat", ReplyAction="http://tempuri.org/IChatManager/connectToChatResponse")]
+        void connectToChat(string userName);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/connectToLobby", ReplyAction="http://tempuri.org/IChatManager/connectToLobbyResponse")]
-        System.Threading.Tasks.Task connectToLobbyAsync(string userName);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/connectToChat", ReplyAction="http://tempuri.org/IChatManager/connectToChatResponse")]
+        System.Threading.Tasks.Task connectToChatAsync(string userName);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/leaveLobby", ReplyAction="http://tempuri.org/IChatManager/leaveLobbyResponse")]
-        void leaveLobby(string userName);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/leaveChat", ReplyAction="http://tempuri.org/IChatManager/leaveChatResponse")]
+        void leaveChat(string userName);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/leaveLobby", ReplyAction="http://tempuri.org/IChatManager/leaveLobbyResponse")]
-        System.Threading.Tasks.Task leaveLobbyAsync(string userName);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/leaveChat", ReplyAction="http://tempuri.org/IChatManager/leaveChatResponse")]
+        System.Threading.Tasks.Task leaveChatAsync(string userName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatManager/getMessageHistory", ReplyAction="http://tempuri.org/IChatManager/getMessageHistoryResponse")]
         TripasDeGatoCliente.TripasDeGatoServicio.Message[] getMessageHistory();
@@ -735,20 +735,20 @@ namespace TripasDeGatoCliente.TripasDeGatoServicio {
             return base.Channel.sendMessageAsync(userName, message);
         }
         
-        public void connectToLobby(string userName) {
-            base.Channel.connectToLobby(userName);
+        public void connectToChat(string userName) {
+            base.Channel.connectToChat(userName);
         }
         
-        public System.Threading.Tasks.Task connectToLobbyAsync(string userName) {
-            return base.Channel.connectToLobbyAsync(userName);
+        public System.Threading.Tasks.Task connectToChatAsync(string userName) {
+            return base.Channel.connectToChatAsync(userName);
         }
         
-        public void leaveLobby(string userName) {
-            base.Channel.leaveLobby(userName);
+        public void leaveChat(string userName) {
+            base.Channel.leaveChat(userName);
         }
         
-        public System.Threading.Tasks.Task leaveLobbyAsync(string userName) {
-            return base.Channel.leaveLobbyAsync(userName);
+        public System.Threading.Tasks.Task leaveChatAsync(string userName) {
+            return base.Channel.leaveChatAsync(userName);
         }
         
         public TripasDeGatoCliente.TripasDeGatoServicio.Message[] getMessageHistory() {
@@ -1021,32 +1021,8 @@ namespace TripasDeGatoCliente.TripasDeGatoServicio {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TripasDeGatoServicio.ILobbyManager")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TripasDeGatoServicio.ILobbyManager", CallbackContract=typeof(TripasDeGatoCliente.TripasDeGatoServicio.ILobbyManagerCallback))]
     public interface ILobbyManager {
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/CreateLobby", ReplyAction="http://tempuri.org/ILobbyManager/CreateLobbyResponse")]
-        string CreateLobby(string gameName, int nodeCount, TripasDeGatoCliente.TripasDeGatoServicio.Profile owner);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/CreateLobby", ReplyAction="http://tempuri.org/ILobbyManager/CreateLobbyResponse")]
-        System.Threading.Tasks.Task<string> CreateLobbyAsync(string gameName, int nodeCount, TripasDeGatoCliente.TripasDeGatoServicio.Profile owner);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/GetLobbyByCode", ReplyAction="http://tempuri.org/ILobbyManager/GetLobbyByCodeResponse")]
-        TripasDeGatoCliente.TripasDeGatoServicio.Lobby GetLobbyByCode(string code);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/GetLobbyByCode", ReplyAction="http://tempuri.org/ILobbyManager/GetLobbyByCodeResponse")]
-        System.Threading.Tasks.Task<TripasDeGatoCliente.TripasDeGatoServicio.Lobby> GetLobbyByCodeAsync(string code);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/GetAvailableLobbies", ReplyAction="http://tempuri.org/ILobbyManager/GetAvailableLobbiesResponse")]
-        TripasDeGatoCliente.TripasDeGatoServicio.Lobby[] GetAvailableLobbies();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/GetAvailableLobbies", ReplyAction="http://tempuri.org/ILobbyManager/GetAvailableLobbiesResponse")]
-        System.Threading.Tasks.Task<TripasDeGatoCliente.TripasDeGatoServicio.Lobby[]> GetAvailableLobbiesAsync();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/JoinLobby", ReplyAction="http://tempuri.org/ILobbyManager/JoinLobbyResponse")]
-        bool JoinLobby(string code, TripasDeGatoCliente.TripasDeGatoServicio.Profile guest);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/JoinLobby", ReplyAction="http://tempuri.org/ILobbyManager/JoinLobbyResponse")]
-        System.Threading.Tasks.Task<bool> JoinLobbyAsync(string code, TripasDeGatoCliente.TripasDeGatoServicio.Profile guest);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/LeaveLobby", ReplyAction="http://tempuri.org/ILobbyManager/LeaveLobbyResponse")]
         bool LeaveLobby(string code, int playerId);
@@ -1062,46 +1038,120 @@ namespace TripasDeGatoCliente.TripasDeGatoServicio {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface ILobbyManagerCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/notifyPlayerConectedCallback", ReplyAction="http://tempuri.org/ILobbyManager/notifyPlayerConectedCallbackResponse")]
+        void notifyPlayerConectedCallback(TripasDeGatoCliente.TripasDeGatoServicio.Profile player);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/removeFromLobby", ReplyAction="http://tempuri.org/ILobbyManager/removeFromLobbyResponse")]
+        void removeFromLobby();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/hostLeftCallback", ReplyAction="http://tempuri.org/ILobbyManager/hostLeftCallbackResponse")]
+        void hostLeftCallback();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyManager/guestLeftCallback", ReplyAction="http://tempuri.org/ILobbyManager/guestLeftCallbackResponse")]
+        void guestLeftCallback();
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface ILobbyManagerChannel : TripasDeGatoCliente.TripasDeGatoServicio.ILobbyManager, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class LobbyManagerClient : System.ServiceModel.ClientBase<TripasDeGatoCliente.TripasDeGatoServicio.ILobbyManager>, TripasDeGatoCliente.TripasDeGatoServicio.ILobbyManager {
+    public partial class LobbyManagerClient : System.ServiceModel.DuplexClientBase<TripasDeGatoCliente.TripasDeGatoServicio.ILobbyManager>, TripasDeGatoCliente.TripasDeGatoServicio.ILobbyManager {
         
-        public LobbyManagerClient() {
+        public LobbyManagerClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public LobbyManagerClient(string endpointConfigurationName) : 
+        public LobbyManagerClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
+        }
+        
+        public LobbyManagerClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public LobbyManagerClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public LobbyManagerClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
+        }
+        
+        public bool LeaveLobby(string code, int playerId) {
+            return base.Channel.LeaveLobby(code, playerId);
+        }
+        
+        public System.Threading.Tasks.Task<bool> LeaveLobbyAsync(string code, int playerId) {
+            return base.Channel.LeaveLobbyAsync(code, playerId);
+        }
+        
+        public bool DeleteLobby(string code) {
+            return base.Channel.DeleteLobby(code);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteLobbyAsync(string code) {
+            return base.Channel.DeleteLobbyAsync(code);
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TripasDeGatoServicio.ILobbyBrowser")]
+    public interface ILobbyBrowser {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyBrowser/GetAvailableLobbies", ReplyAction="http://tempuri.org/ILobbyBrowser/GetAvailableLobbiesResponse")]
+        TripasDeGatoCliente.TripasDeGatoServicio.Lobby[] GetAvailableLobbies();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyBrowser/GetAvailableLobbies", ReplyAction="http://tempuri.org/ILobbyBrowser/GetAvailableLobbiesResponse")]
+        System.Threading.Tasks.Task<TripasDeGatoCliente.TripasDeGatoServicio.Lobby[]> GetAvailableLobbiesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyBrowser/JoinLobby", ReplyAction="http://tempuri.org/ILobbyBrowser/JoinLobbyResponse")]
+        bool JoinLobby(string code, TripasDeGatoCliente.TripasDeGatoServicio.Profile guest);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyBrowser/JoinLobby", ReplyAction="http://tempuri.org/ILobbyBrowser/JoinLobbyResponse")]
+        System.Threading.Tasks.Task<bool> JoinLobbyAsync(string code, TripasDeGatoCliente.TripasDeGatoServicio.Profile guest);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyBrowser/CreateLobby", ReplyAction="http://tempuri.org/ILobbyBrowser/CreateLobbyResponse")]
+        string CreateLobby(string gameName, int nodeCount, TripasDeGatoCliente.TripasDeGatoServicio.Profile owner);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyBrowser/CreateLobby", ReplyAction="http://tempuri.org/ILobbyBrowser/CreateLobbyResponse")]
+        System.Threading.Tasks.Task<string> CreateLobbyAsync(string gameName, int nodeCount, TripasDeGatoCliente.TripasDeGatoServicio.Profile owner);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyBrowser/GetLobbyByCode", ReplyAction="http://tempuri.org/ILobbyBrowser/GetLobbyByCodeResponse")]
+        TripasDeGatoCliente.TripasDeGatoServicio.Lobby GetLobbyByCode(string code);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyBrowser/GetLobbyByCode", ReplyAction="http://tempuri.org/ILobbyBrowser/GetLobbyByCodeResponse")]
+        System.Threading.Tasks.Task<TripasDeGatoCliente.TripasDeGatoServicio.Lobby> GetLobbyByCodeAsync(string code);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface ILobbyBrowserChannel : TripasDeGatoCliente.TripasDeGatoServicio.ILobbyBrowser, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class LobbyBrowserClient : System.ServiceModel.ClientBase<TripasDeGatoCliente.TripasDeGatoServicio.ILobbyBrowser>, TripasDeGatoCliente.TripasDeGatoServicio.ILobbyBrowser {
+        
+        public LobbyBrowserClient() {
+        }
+        
+        public LobbyBrowserClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public LobbyManagerClient(string endpointConfigurationName, string remoteAddress) : 
+        public LobbyBrowserClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public LobbyManagerClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public LobbyBrowserClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public LobbyManagerClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public LobbyBrowserClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
-        }
-        
-        public string CreateLobby(string gameName, int nodeCount, TripasDeGatoCliente.TripasDeGatoServicio.Profile owner) {
-            return base.Channel.CreateLobby(gameName, nodeCount, owner);
-        }
-        
-        public System.Threading.Tasks.Task<string> CreateLobbyAsync(string gameName, int nodeCount, TripasDeGatoCliente.TripasDeGatoServicio.Profile owner) {
-            return base.Channel.CreateLobbyAsync(gameName, nodeCount, owner);
-        }
-        
-        public TripasDeGatoCliente.TripasDeGatoServicio.Lobby GetLobbyByCode(string code) {
-            return base.Channel.GetLobbyByCode(code);
-        }
-        
-        public System.Threading.Tasks.Task<TripasDeGatoCliente.TripasDeGatoServicio.Lobby> GetLobbyByCodeAsync(string code) {
-            return base.Channel.GetLobbyByCodeAsync(code);
         }
         
         public TripasDeGatoCliente.TripasDeGatoServicio.Lobby[] GetAvailableLobbies() {
@@ -1120,20 +1170,20 @@ namespace TripasDeGatoCliente.TripasDeGatoServicio {
             return base.Channel.JoinLobbyAsync(code, guest);
         }
         
-        public bool LeaveLobby(string code, int playerId) {
-            return base.Channel.LeaveLobby(code, playerId);
+        public string CreateLobby(string gameName, int nodeCount, TripasDeGatoCliente.TripasDeGatoServicio.Profile owner) {
+            return base.Channel.CreateLobby(gameName, nodeCount, owner);
         }
         
-        public System.Threading.Tasks.Task<bool> LeaveLobbyAsync(string code, int playerId) {
-            return base.Channel.LeaveLobbyAsync(code, playerId);
+        public System.Threading.Tasks.Task<string> CreateLobbyAsync(string gameName, int nodeCount, TripasDeGatoCliente.TripasDeGatoServicio.Profile owner) {
+            return base.Channel.CreateLobbyAsync(gameName, nodeCount, owner);
         }
         
-        public bool DeleteLobby(string code) {
-            return base.Channel.DeleteLobby(code);
+        public TripasDeGatoCliente.TripasDeGatoServicio.Lobby GetLobbyByCode(string code) {
+            return base.Channel.GetLobbyByCode(code);
         }
         
-        public System.Threading.Tasks.Task<bool> DeleteLobbyAsync(string code) {
-            return base.Channel.DeleteLobbyAsync(code);
+        public System.Threading.Tasks.Task<TripasDeGatoCliente.TripasDeGatoServicio.Lobby> GetLobbyByCodeAsync(string code) {
+            return base.Channel.GetLobbyByCodeAsync(code);
         }
     }
 }

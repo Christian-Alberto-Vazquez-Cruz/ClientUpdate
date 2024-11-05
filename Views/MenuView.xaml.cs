@@ -15,14 +15,14 @@ namespace TripasDeGatoCliente.Views {
         private UserManagerClient userManager;
         private FriendsManagerClient friendsManager;
         private StatusManagerClient statusManager;
-        private LobbyManagerClient lobbyManager;
+        private LobbyBrowserClient lobbyBrowser;
 
         public MenuView() {
             InitializeComponent();
             userManager = new UserManagerClient();
             friendsManager = new FriendsManagerClient();
             statusManager = new StatusManagerClient();
-            lobbyManager = new LobbyManagerClient();
+            lobbyBrowser = new LobbyBrowserClient();
             LoadUserProfileAsync();
         }
 
@@ -181,7 +181,7 @@ namespace TripasDeGatoCliente.Views {
             Profile owner = new Profile { idProfile = UserProfileSingleton.IdPerfil, userName = UserProfileSingleton.Nombre };
 
             try {
-                string lobbyCode = await lobbyManager.CreateLobbyAsync(gameName, nodeCount, owner);
+                string lobbyCode = await lobbyBrowser.CreateLobbyAsync(gameName, nodeCount, owner);
 
                 if (!string.IsNullOrEmpty(lobbyCode)) {
                     GoToLobbyView(lobbyCode);
@@ -223,5 +223,6 @@ namespace TripasDeGatoCliente.Views {
                 MessageBox.Show("Error: No se puede navegar a SelectLobbyView.");
             }
         }
+
     }
 }

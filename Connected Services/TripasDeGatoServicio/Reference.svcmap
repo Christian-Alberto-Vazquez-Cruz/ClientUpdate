@@ -29,6 +29,7 @@
     <MetadataFile FileName="item.disco" MetadataType="Disco" ID="2ec09b87-0477-4c1e-8685-a9d50d0ce63e" SourceId="1" SourceUrl="http://localhost:8082/?disco" />
     <MetadataFile FileName="item31.xsd" MetadataType="Schema" ID="606d6936-a32d-48b9-b5b1-79853acdb6aa" SourceId="1" SourceUrl="http://localhost:8082/?xsd=xsd4" />
     <MetadataFile FileName="TripasGameService.wsdl" MetadataType="Wsdl" ID="c9468a66-7233-4192-93dd-b7c442ef7447" SourceId="1" SourceUrl="http://localhost:8082/?wsdl" />
+    <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="a09a4f90-0722-4aef-a596-3a3730e1a3a1" SourceId="1" SourceUrl="http://localhost:8082/?xsd=xsd5" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

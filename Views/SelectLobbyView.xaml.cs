@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,27 +10,30 @@ using TripasDeGatoCliente.TripasDeGatoServicio;
 
 namespace TripasDeGatoCliente.Views {
     public partial class SelectLobbyView : Page {
+        private LobbyBrowserClient lobbyBrowser;
         private LobbyManagerClient lobbyManager;
+        
 
         public SelectLobbyView() {
             InitializeComponent();
-            lobbyManager = new LobbyManagerClient();
+            //ESTO HACÍA ANTES, NO FUNCIONA
+            //InstanceContext context = new InstanceContext(this);
+            //lobbyManager = new LobbyManagerClient(context);
+            lobbyBrowser = new LobbyBrowserClient();
+
             LoadLobbiesAsync();
         }
 
-        private async Task LoadLobbiesAsync() {
+        private Task LoadLobbiesAsync() {
             try {
                 // Llamada al servicio para obtener los lobbies disponibles
-                var lobbies = lobbyManager.GetAvailableLobbies();
+                var lobbies = lobbyBrowser.GetAvailableLobbies();
                 LobbyDataGrid.ItemsSource = lobbies;
             } catch (Exception ex) {
                 MessageBox.Show($"Error al cargar los lobbies: {ex.Message}");
             }
-        }
 
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            // Aquí puedes manejar la selección de un lobby si es necesario
+            return Task.CompletedTask;
         }
 
         private async void btnJoinGame_Click(object sender, RoutedEventArgs e) {
@@ -43,10 +47,9 @@ namespace TripasDeGatoCliente.Views {
 
                 try {
                     // Intentar unirse al lobby seleccionado como JugadorDos
-                    bool joined = await lobbyManager.JoinLobbyAsync(lobbyCode, guest);
+                    bool joined = await lobbyBrowser.JoinLobbyAsync(lobbyCode, guest);
 
                     if (joined) {
-                        // Navegar a LobbyView si la unión fue exitosa
                         LobbyView lobbyView = new LobbyView(lobbyCode);
                         this.NavigationService.Navigate(lobbyView);
                     } else {
@@ -60,8 +63,30 @@ namespace TripasDeGatoCliente.Views {
             }
         }
 
+
         private void btnBack_Click(object sender, RoutedEventArgs e) {
-            // Lógica para volver a la pantalla anterior
+            MenuView menuView = new MenuView();
+            if (this.NavigationService != null) {
+                this.NavigationService.Navigate(menuView);
+            } else {
+                MessageBox.Show("Error: No se puede navegar al menu.");
+            }
         }
+
+        /*public void removeFromLobby() {
+            throw new NotImplementedException();
+        }
+
+        public void hostLeftCallback() {
+            throw new NotImplementedException();
+        }
+
+        public void guestLeftCallback() {
+            throw new NotImplementedException();
+        }
+
+        public void notifyPlayerConectedCallback(Profile player) {
+            throw new NotImplementedException();
+        }*/
     }
 }

@@ -7,22 +7,30 @@ using System.Windows.Threading;
 using TripasDeGatoCliente.TripasDeGatoServicio;
 using TripasDeGatoCliente.Logic;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace TripasDeGatoCliente.Views
 {
-    public partial class LobbyView : Page, IChatManagerCallback
+    public partial class LobbyView : Page, IChatManagerCallback, ILobbyManagerCallback
     {
         private ChatManagerClient chatManager;
+        private LobbyManagerClient lobbyManager;
+        private LobbyBrowserClient lobbyBrowser;
+        private Timer refreshTimer;
         public LobbyView(string lobbyCode)
         {
             InitializeComponent();
             lbCode.Content = lobbyCode;
             labelPlayer1.Content = UserProfileSingleton.Nombre;
+            lobbyBrowser = new LobbyBrowserClient();
+            //ESTO HACÍA ANTES
+            //lobbyManager = new LobbyManagerClient(new InstanceContext(this));
             chatManager = new ChatManagerClient(new InstanceContext(this));
-            InitializeChatAsync();
+            StartRefreshTimer();
+            //InitializeChatAsync();
         }
 
-        private async void InitializeChatAsync()
+        /*private async void InitializeChatAsync()
         {
             try
             {
@@ -32,6 +40,47 @@ namespace TripasDeGatoCliente.Views
             catch (Exception ex)
             {
                 HandleChatException(ex);
+            }
+        }*/
+
+        private void StartRefreshTimer() {
+            refreshTimer = new Timer(2000); // Set timer to trigger every 2 second
+            refreshTimer.Elapsed += async (sender, e) => await RefreshLobbyData();
+            refreshTimer.Start();
+        }
+
+        //SIN EL IF(APPLICATION.CURRENT.DISPATCHER.CHECKACCESS())
+        /*private async Task RefreshLobbyData() {
+            try {
+                // Fetch the latest lobby data
+                var lobby = await lobbyBrowser.GetLobbyByCodeAsync(lbCode.Content.ToString());
+                Dispatcher.Invoke(() =>
+                {
+                    labelPlayer2.Text = lobby.Players.ContainsKey("PlayerTwo") ? lobby.Players["PlayerTwo"].userName: "Esperando jugador...";
+                    // Additional UI updates can be added here
+                });
+            } catch (Exception ex) {
+                Dispatcher.Invoke(() => MessageBox.Show($"Error al actualizar datos del lobby: {ex.Message}"));
+            }
+        }*/
+
+        private async Task RefreshLobbyData() {
+            try {
+                //Versión anterior
+                //var lobby = await lobbyBrowser.GetLobbyByCodeAsync(lbCode.Content.ToString());
+                string lobbyCode = lbCode.Content.ToString();
+                Lobby lobby = await Task.Run(() => lobbyBrowser.GetLobbyByCode(lobbyCode));
+                if (Application.Current.Dispatcher.CheckAccess()) {
+                    labelPlayer2.Text = lobby.Players.ContainsKey("PlayerTwo") ? lobby.Players["PlayerTwo"].userName : "Esperando jugador...";
+                    DialogManager.ShowWarningMessageAlert("Check Access true");
+                } else {
+                    Dispatcher.Invoke(() => {
+                        labelPlayer2.Text = lobby.Players.ContainsKey("PlayerTwo") ? lobby.Players["PlayerTwo"].userName : "Esperando jugador...";
+                        // Additional UI updates can be added here
+                    });
+                }
+            } catch (Exception ex) {
+                Dispatcher.Invoke(() => MessageBox.Show($"Error al actualizar datos del lobby: {ex.Message}"));
             }
         }
 
@@ -135,6 +184,36 @@ namespace TripasDeGatoCliente.Views
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             GoToMenuView();
+        }
+
+        public void notifyPlayerConectedCallback(Profile guest) {
+            Dispatcher.Invoke(() => {
+                labelPlayer2.Text = guest.userName;
+            });
+        }
+
+        public void removeFromLobby() {
+            Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show("Has sido eliminado del lobby.");
+                GoToMenuView();
+            });
+        }
+
+        public void hostLeftCallback() {
+            Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show("El anfitrión ha abandonado el lobby. Serás redirigido al menú.");
+                GoToMenuView();
+            });
+        }
+
+        public void guestLeftCallback() {
+            Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show("El invitado ha abandonado el lobby.");
+                labelPlayer2.Text = "Esperando jugador...";
+            });
         }
     }
 }
