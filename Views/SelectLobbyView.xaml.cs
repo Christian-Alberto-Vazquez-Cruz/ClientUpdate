@@ -72,21 +72,5 @@ namespace TripasDeGatoCliente.Views {
                 MessageBox.Show("Error: No se puede navegar al menu.");
             }
         }
-
-        /*public void removeFromLobby() {
-            throw new NotImplementedException();
-        }
-
-        public void hostLeftCallback() {
-            throw new NotImplementedException();
-        }
-
-        public void guestLeftCallback() {
-            throw new NotImplementedException();
-        }
-
-        public void notifyPlayerConectedCallback(Profile player) {
-            throw new NotImplementedException();
-        }*/
     }
 }

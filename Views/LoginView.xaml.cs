@@ -81,10 +81,10 @@ namespace TripasDeGatoCliente.Views {
 
             try {
                 IUserManager userManager = new UserManagerClient();
-                validationResult = userManager.verifyLogin(mail, password);
+                validationResult = userManager.VerifyLogin(mail, password);
 
                 if (validationResult == Constants.DATA_MATCHES) {
-                    Profile profile = userManager.getProfileByMail(mail);
+                    Profile profile = userManager.GetProfileByMail(mail);
                     if (profile != null) {
                         ObtainSingletonData(profile);
                         validateResult = true;

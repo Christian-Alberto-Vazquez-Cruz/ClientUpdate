@@ -100,13 +100,13 @@ namespace TripasDeGatoCliente.Views {
 
             if (!string.IsNullOrEmpty(friendName)) {
                 try {
-                    int friendProfileId = await userManager.getProfileIdAsync(friendName);
+                    int friendProfileId = await userManager.GetProfileIdAsync(friendName);
                     int userProfileId = UserProfileSingleton.IdPerfil;
 
                     if (friendProfileId == userProfileId) {
                         MessageBox.Show("No puedes agregarte a ti mismo como amigo.");
                     } else if (friendProfileId > 0) {
-                        int result = await friendsManager.addFriendAsync(userProfileId, friendProfileId);
+                        int result = await friendsManager.AddFriendAsync(userProfileId, friendProfileId);
 
                         if (result == Constants.SUCCES_OPERATION) {
                             MessageBox.Show($"Amigo '{friendName}' agregado correctamente.");
@@ -132,7 +132,7 @@ namespace TripasDeGatoCliente.Views {
         private async Task LoadFriendsListAsync() {
             try {
                 int userProfileId = UserProfileSingleton.IdPerfil;
-                var friendsList = await friendsManager.getFriendsAsync(userProfileId);
+                var friendsList = await friendsManager.GetFriendsAsync(userProfileId);
 
                 var friendsWithStatus = new List<string>();
 
@@ -152,11 +152,11 @@ namespace TripasDeGatoCliente.Views {
                 string selectedFriendName = lstFriends.SelectedItem.ToString();
 
                 try {
-                    int friendProfileId = await userManager.getProfileIdAsync(selectedFriendName);
+                    int friendProfileId = await userManager.GetProfileIdAsync(selectedFriendName);
 
                     if (friendProfileId > 0) {
                         int userProfileId = UserProfileSingleton.IdPerfil;
-                        int result = await friendsManager.deleteFriendAsync(userProfileId, friendProfileId);
+                        int result = await friendsManager.DeleteFriendAsync(userProfileId, friendProfileId);
 
                         if (result == Constants.SUCCES_OPERATION) {
                             MessageBox.Show($"Amistad con '{selectedFriendName}' eliminada correctamente.");

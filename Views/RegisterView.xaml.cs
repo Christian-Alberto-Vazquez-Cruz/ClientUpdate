@@ -29,7 +29,7 @@ namespace TripasDeGatoCliente.Views
 
             var userProxy = new TripasDeGatoServicio.UserManagerClient();
 
-            bool emailRegistered = userProxy.isEmailRegistered(email);
+            bool emailRegistered = userProxy.IsEmailRegistered(email);
             if (emailRegistered)
             {
                 DialogManager.ShowErrorMessageAlert(Properties.Resources.dialogEmailInUse);
@@ -38,7 +38,7 @@ namespace TripasDeGatoCliente.Views
             }
 
             var emailVerificationProxy = new TripasDeGatoServicio.EmailVerificationManagerClient();
-            int result = emailVerificationProxy.sendVerificationCodeRegister(email);
+            int result = emailVerificationProxy.SendVerificationCodeRegister(email);
 
             if (result == Constants.SUCCES_OPERATION)
             {
@@ -54,7 +54,7 @@ namespace TripasDeGatoCliente.Views
         private void BtnResendCode_Click(object sender, RoutedEventArgs e)
         {
             var emailVerificationProxy = new TripasDeGatoServicio.EmailVerificationManagerClient();
-            int result = emailVerificationProxy.sendVerificationCodeRegister(txtEmail.Text);
+            int result = emailVerificationProxy.SendVerificationCodeRegister(txtEmail.Text);
 
             if (result == Constants.SUCCES_OPERATION)
             {
@@ -71,7 +71,7 @@ namespace TripasDeGatoCliente.Views
             string enteredCode = $"{txtValidationCode1.Text}{txtValidationCode2.Text}{txtValidationCode3.Text}{txtValidationCode4.Text}{txtValidationCode5.Text}{txtValidationCode6.Text}";
 
             var emailVerificationProxy = new TripasDeGatoServicio.EmailVerificationManagerClient();
-            bool isCodeValid = emailVerificationProxy.verifyCode(txtEmail.Text, enteredCode);
+            bool isCodeValid = emailVerificationProxy.VerifyCode(txtEmail.Text, enteredCode);
 
             if (isCodeValid)
             {
@@ -90,7 +90,7 @@ namespace TripasDeGatoCliente.Views
                     picturePath = "/Images/DefaultImageProfile"
                 };
 
-                int accountResult = userProxy.createAccount(newUser, newProfile);
+                int accountResult = userProxy.CreateAccount(newUser, newProfile);
 
                 if (accountResult == Constants.SUCCES_OPERATION)
                 {
